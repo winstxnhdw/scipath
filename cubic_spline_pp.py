@@ -178,7 +178,7 @@ def main():
     x = df['X-axis'].values.tolist()
     y = df['Y-axis'].values.tolist()
 
-    px, py, pyaw, pk = generate_cubic_path(x, y, ds)
+    px, py, pyaw, pk = generate_cubic_path(x, y)
 
     plt.figure(1)
     plt.plot(x, y, '--o')
