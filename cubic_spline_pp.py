@@ -6,10 +6,6 @@ class Spline:
 
     def __init__(self, x, y):
         
-        if len(x) != len(y):
-            print("Length of x and y must be equal")
-            exit()
-        
         self.x = x
         self.y = y
 
@@ -65,8 +61,8 @@ class Spline:
 
         else:
             i = self.search_index(x)
-            deltax = x - self.x[i]
-            result = self.a[i] + self.b[i]*deltax + self.c[i]*deltax**2.0 + self.d[i]*deltax**3.0
+            delta_x = x - self.x[i]
+            result = self.a[i] + self.b[i]*delta_x + self.c[i]*delta_x*delta_x + self.d[i]*delta_x*delta_x*delta_x
 
             return result
 
@@ -80,8 +76,8 @@ class Spline:
 
         else:
             i = self.search_index(x)
-            deltax = x - self.x[i]
-            result = self.b[i] + 2.0*self.c[i]*deltax + 3.0*self.d[i]*deltax**2.0
+            delta_x = x - self.x[i]
+            result = self.b[i] + 2.0*self.c[i]*delta_x + 3.0*self.d[i]*delta_x*delta_x
 
             return result
 
@@ -95,8 +91,8 @@ class Spline:
 
         else:
             i = self.search_index(x)
-            deltax = x - self.x[i]
-            result = 2.0*self.c[i] + 6.0*self.d[i] * deltax
+            delta_x = x - self.x[i]
+            result = 2.0*self.c[i] + 6.0*self.d[i] * delta_x
 
             return result
 
@@ -118,9 +114,9 @@ class Spline2D:
 
     def calculate_s(self, x, y):
         
-        deltax = np.diff(x)
+        delta_x = np.diff(x)
         deltay = np.diff(y)
-        self.ds = np.hypot(deltax, deltay)
+        self.ds = np.hypot(delta_x, deltay)
 
         s = [0]
         s.extend(np.cumsum(self.ds))
@@ -149,11 +145,15 @@ class Spline2D:
         dy = self.sy.solve_1st_derivative(s)
         ddy = self.sy.solve_2nd_derivative(s)
 
-        k = (ddy*dx - ddx*dy) / ((dx**2 + dy**2)**(3 / 2))
+        k = (ddy*dx - ddx*dy) / ((dx*dx + dy*dy)**1.5)
 
         return k
 
 def generate_cubic_path(x, y, ds=0.05):
+
+    if len(x) != len(y):
+        print("Length of x and y must be equal")
+        exit()
 
     sp2d = Spline2D(x, y)
     s = np.arange(0, sp2d.s[-1], ds)
@@ -185,13 +185,16 @@ def main():
     px, py, pyaw, pk = generate_cubic_path(x, y)
 
     plt.figure(1)
+    plt.title("Geometry")
     plt.plot(x, y, '--o')
     plt.plot(px, py)
 
     plt.figure(2)
+    plt.title("Yaw")
     plt.plot(np.rad2deg(pyaw))
 
     plt.figure(3)
+    plt.title("Curvature")
     plt.plot(pk)
     
     plt.show()
