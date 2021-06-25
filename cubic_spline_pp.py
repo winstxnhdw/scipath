@@ -6,6 +6,10 @@ class Spline:
 
     def __init__(self, x, y):
         
+        if len(x) != len(y):
+            print("Length of x and y must be equal")
+            exit()
+        
         self.x = x
         self.y = y
 
@@ -13,7 +17,7 @@ class Spline:
         self.b = []
         self.d = []
 
-        dim_size = len(max(x, y))
+        dim_size = len(x)
         h = np.diff(x)
 
         A = self.matrixA(h, dim_size)
