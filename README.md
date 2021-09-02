@@ -53,7 +53,6 @@ $ pip install numpy scipy
 ## Example
 ```python
 import pandas as pd
-
 from cubic_spline_interpolator import generate_cubic_spline
 
 dir_path = 'waypoints.csv'
