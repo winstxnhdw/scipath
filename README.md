@@ -14,7 +14,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 :return curvature:      (list) discrete curvature of the cubic spline path [1/m]
 ```
 
-### generate_cubic_spline
+### generate_cubic_path
 ```yaml
 :param x:               (list) x-coordinate of the coarse path [m]
 :param y:               (list) y-coordinate of the coarse path [m]
