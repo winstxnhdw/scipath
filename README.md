@@ -1,7 +1,7 @@
 # SciPyCubicSpline
 SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to compute the path profile, such as curvature and yaw. It is approximately 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline). Look at the [notebook](test.ipynb) for more information and examples.
 
-### generate_cubic_spline
+#### generate_cubic_spline
 ```yaml
 :param x:               (list) x-coordinate of the coarse path [m]
 :param y:               (list) y-coordinate of the coarse path [m]
@@ -14,7 +14,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 :return curvature:      (list) discrete curvature of the cubic spline path [1/m]
 ```
 
-### generate_cubic_path
+#### generate_cubic_path
 ```yaml
 :param x:               (list) x-coordinate of the coarse path [m]
 :param y:               (list) y-coordinate of the coarse path [m]
@@ -25,7 +25,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 :return y:              (list) y-coordinate of the cubic spline path [m]
 ```
 
-### calculate_spline_yaw
+#### calculate_spline_yaw
 ```yaml
 :param x:               (list) x-coordinate of the coarse path [m]
 :param y:               (list) y-coordinate of the coarse path [m]
@@ -35,7 +35,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 :return yaw:            (list) discrete yaw of the cubic spline path [rad]
 ```
 
-### calculate_spline_curvature
+#### calculate_spline_curvature
 ```yaml
 :param x:               (list) x-coordinate of the coarse path [m]
 :param y:               (list) y-coordinate of the coarse path [m]
@@ -48,4 +48,18 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ## Installation
 ```bash
 $ pip install numpy scipy
+```
+
+## Example
+```python
+import pandas as pd
+
+from cubic_spline_interpolator import generate_cubic_spline
+
+dir_path = 'waypoints.csv'
+df = pd.read_csv(dir_path)
+x = df['x'].values.tolist()
+y = df['y'].values.tolist()
+
+px, py, pyaw, pk = generate_cubic_spline(x, y, 0.1)
 ```
