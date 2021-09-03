@@ -48,7 +48,7 @@ def calculate_spline_curvature(x, y, ds=0.05, bc_type='natural'):
 def main():
     
     import pandas as pd
-    import matplotlib.pyplot as plt
+    from matplotlib import pyplot as plt
 
     dir_path = 'waypoints.csv'
     df = pd.read_csv(dir_path)
@@ -59,18 +59,20 @@ def main():
     pyaw = calculate_spline_yaw(x, y)
     pk = calculate_spline_curvature(x, y)
 
-    plt.figure(1)
-    plt.title("Geometry")
-    plt.plot(x, y, '--o')
-    plt.plot(px, py)
+    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+    plt.style.use('seaborn-pastel')
 
-    plt.figure(2)
-    plt.title("Yaw")
-    plt.plot(np.rad2deg(pyaw))
+    ax[0].set_box_aspect(1)
+    ax[0].set_title('Geometry')
+    ax[0].plot(px, py, c='m')
 
-    plt.figure(3)
-    plt.title("Curvature")
-    plt.plot(pk)
+    ax[1].set_box_aspect(1)
+    ax[1].set_title('Yaw')
+    ax[1].plot(pyaw, c='m')
+
+    ax[2].set_box_aspect(1)
+    ax[2].set_title('Curvature')
+    ax[2].plot(pk, c='m')
     
     plt.show()
 
