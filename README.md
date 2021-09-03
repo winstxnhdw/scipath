@@ -7,46 +7,46 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 
 #### generate_cubic_spline
 ```yaml
-:param x:               (list) x-coordinate of the coarse path [m]
-:param y:               (list) y-coordinate of the coarse path [m]
+:param x:               (numpy.ndarray) x-coordinate of the coarse path [m]
+:param y:               (numpy.ndarray) y-coordinate of the coarse path [m]
 :param ds:              (float) desired distance between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return x:              (list) x-coordinate of the cubic spline path [m]
-:return y:              (list) y-coordinate of the cubic spline path [m]
-:return yaw:            (list) discrete yaw of the cubic spline path [rad]
-:return curvature:      (list) discrete curvature of the cubic spline path [1/m]
+:return x:              (numpy.ndarray) x-coordinate of the cubic spline path [m]
+:return y:              (numpy.ndarray) y-coordinate of the cubic spline path [m]
+:return yaw:            (numpy.ndarray) discrete yaw of the cubic spline path [rad]
+:return curvature:      (numpy.ndarray) discrete curvature of the cubic spline path [1/m]
 ```
 
 #### generate_cubic_path
 ```yaml
-:param x:               (list) x-coordinate of the coarse path [m]
-:param y:               (list) y-coordinate of the coarse path [m]
+:param x:               (numpy.ndarray) x-coordinate of the coarse path [m]
+:param y:               (numpy.ndarray) y-coordinate of the coarse path [m]
 :param ds:              (float) desired distance between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return x:              (list) x-coordinate of the cubic spline path [m]
-:return y:              (list) y-coordinate of the cubic spline path [m]
+:return x:              (numpy.ndarray) x-coordinate of the cubic spline path [m]
+:return y:              (numpy.ndarray) y-coordinate of the cubic spline path [m]
 ```
 
 #### calculate_spline_yaw
 ```yaml
-:param x:               (list) x-coordinate of the coarse path [m]
-:param y:               (list) y-coordinate of the coarse path [m]
+:param x:               (numpy.ndarray) x-coordinate of the coarse path [m]
+:param y:               (numpy.ndarray) y-coordinate of the coarse path [m]
 :param ds:              (float) desired distance between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return yaw:            (list) discrete yaw of the cubic spline path [rad]
+:return yaw:            (numpy.ndarray) discrete yaw of the cubic spline path [rad]
 ```
 
 #### calculate_spline_curvature
 ```yaml
-:param x:               (list) x-coordinate of the coarse path [m]
-:param y:               (list) y-coordinate of the coarse path [m]
+:param x:               (numpy.ndarray) x-coordinate of the coarse path [m]
+:param y:               (numpy.ndarray) y-coordinate of the coarse path [m]
 :param ds:              (float) desired distance between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return curvature:      (list) discrete curvature of the cubic spline path [1/m]
+:return curvature:      (numpy.ndarray) discrete curvature of the cubic spline path [1/m]
 ```
 
 ## Installation
