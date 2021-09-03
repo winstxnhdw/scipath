@@ -4,7 +4,7 @@ from scipy.interpolate import CubicSpline
 
 def initialise_cubic_spline(x, y, ds, bc_type):
 
-    distance = np.concatenate((np.zeros(1), np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
+    distance = np.concatenate(([0], np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
     s = np.arange(0, distance[-1], ds)
     points = np.array([x, y]).T
     cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
