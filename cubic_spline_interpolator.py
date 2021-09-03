@@ -52,8 +52,8 @@ def main():
 
     dir_path = 'waypoints.csv'
     df = pd.read_csv(dir_path)
-    x = df['x'].values.tolist()
-    y = df['y'].values.tolist()
+    x = df['x'].values
+    y = df['y'].values
 
     px, py = generate_cubic_path(x, y)
     pyaw = calculate_spline_yaw(x, y)
