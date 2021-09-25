@@ -9,7 +9,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
-:param ds:              (float) desired distance between each point, defaults to 0.05 [m]
+:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
 :return x:              (array) x-coordinate of the cubic spline path [m]
@@ -22,7 +22,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
-:param ds:              (float) desired distance between each point, defaults to 0.05 [m]
+:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
 :return x:              (array) x-coordinate of the cubic spline path [m]
@@ -33,7 +33,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
-:param ds:              (float) desired distance between each point, defaults to 0.05 [m]
+:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
 :return yaw:            (array) discrete yaw of the cubic spline path [rad]
@@ -43,7 +43,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
-:param ds:              (float) desired distance between each point, defaults to 0.05 [m]
+:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
 :return curvature:      (array) discrete curvature of the cubic spline path [1/m]
