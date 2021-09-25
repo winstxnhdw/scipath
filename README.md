@@ -8,7 +8,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 #### generate_cubic_spline
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
-:param y:               (numpy.ndarray) y-coordinate of the coarse path [m]
+:param y:               (array) y-coordinate of the coarse path [m]
 :param ds:              (float) desired distance between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
