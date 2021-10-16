@@ -1,4 +1,5 @@
 # SciPyCubicSpline
+
 SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline). Look at the [notebook](test.ipynb) for more information and examples.
 
 <div align="center">
@@ -6,6 +7,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 </div>
 
 #### generate_cubic_spline
+
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
@@ -19,6 +21,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```
 
 #### generate_cubic_path
+
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
@@ -30,6 +33,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```
 
 #### calculate_spline_yaw
+
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
@@ -40,6 +44,7 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```
 
 #### calculate_spline_curvature
+
 ```yaml
 :param x:               (array) x-coordinate of the coarse path [m]
 :param y:               (array) y-coordinate of the coarse path [m]
@@ -50,11 +55,13 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 ```
 
 ## Installation
+
 ```bash
-$ pip install numpy scipy
+pip install numpy scipy
 ```
 
 ## Example
+
 ```python
 import pandas as pd
 from cubic_spline_interpolator import generate_cubic_spline
