@@ -60,6 +60,14 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 pip install numpy scipy
 ```
 
+## Troubleshoot
+
+The following error occurs if the input points contain two **consecutive duplicates** of a point. You may fix this simply by removing the offending duplicate from the input.
+
+```bash
+ValueError: 'x' must be strictly increasing sequence.
+```
+
 ## Example
 
 ```python
