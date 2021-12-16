@@ -65,7 +65,7 @@ pip install numpy scipy
 The following error occurs if the input points contain two **consecutive duplicates** of a point. You may fix this by removing the offending duplicate from the input.
 
 ```bash
-ValueError: 'x' must be strictly increasing sequence.
+> ValueError: 'x' must be strictly increasing sequence.
 ```
 
 ## Example
