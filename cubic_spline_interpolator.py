@@ -49,7 +49,7 @@ def main():
     import pandas as pd
     from matplotlib import pyplot as plt
 
-    dir_path = 'waypoints.csv'
+    dir_path = 'tests/waypoints.csv'
     df = pd.read_csv(dir_path)
     x = df['x'].values
     y = df['y'].values
