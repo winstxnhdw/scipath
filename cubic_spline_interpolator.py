@@ -3,7 +3,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.interpolate import CubicSpline
 
-def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: ArrayLike, bc_type: str) -> tuple[CubicSpline, ndarray]:
+def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: ArrayLike, bc_type: str) -> tuple[CubicSpline, np.ndarray]:
 
     distance = np.concatenate((np.zeros(1), np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
     points = np.array([x, y]).T
@@ -11,7 +11,7 @@ def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: ArrayLike, bc_type: 
     cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
     return cs, s
 
-def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[ndarray, ndarray, ndarray, ndarray]:
+def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
 
@@ -24,19 +24,19 @@ def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: s
     cx, cy = cs(s).T
     return cx, cy, yaw, curvature
 
-def generate_cubic_path(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[ndarray, ndarray]:
+def generate_cubic_path(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[np.ndarray, np.ndarray]:
 
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
     cx, cy = cs(s).T
     return cx, cy
     
-def calculate_spline_yaw(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> ndarray:
+def calculate_spline_yaw(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> np.ndarray:
     
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
     dx, dy = cs.derivative(1)(s).T
     return np.arctan2(dy, dx)
 
-def calculate_spline_curvature(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> ndarray:
+def calculate_spline_curvature(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> np.ndarray:
 
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
     dx, dy = cs.derivative(1)(s).T
