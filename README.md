@@ -1,5 +1,8 @@
 # SciPyCubicSpline
 
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/winstxnhdw/SciPyCubicSpline.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/SciPyCubicSpline/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/winstxnhdw/SciPyCubicSpline.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/winstxnhdw/SciPyCubicSpline/context:python)
+
 SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline). Look at the [notebook](test.ipynb) for more information and examples.
 
 <div align="center">
