@@ -1,6 +1,5 @@
 import numpy as np
 
-from numpy import ndarray
 from numpy.typing import ArrayLike
 from scipy.interpolate import CubicSpline
 
