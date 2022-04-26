@@ -65,11 +65,19 @@ pip install numpy scipy
 
 ## Troubleshoot
 
-The following error occurs if the input points contain one or more **consecutive duplicates** of a point. You may fix this by removing the offending duplicate from the input.
+The following error occurs if the input points contain one or more **consecutive duplicates** of a point.
 
 ```python
 >>> generate_cubic_spline()
 ValueError: 'x' must be strictly increasing sequence.
+```
+
+You may fix this by removing the offending duplicate from the input manually or with the following code.
+
+```python
+remove_duplicates = lambda x: [element for index, element in enumerate(x) if i == 0 or v != x[index - 1]]
+x = remove_duplicates(x)
+y = remove_duplicates(y)
 ```
 
 ## Example
