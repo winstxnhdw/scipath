@@ -12,49 +12,49 @@ SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https
 #### generate_cubic_spline
 
 ```yaml
-:param x:               (array) x-coordinate of the coarse path [m]
-:param y:               (array) y-coordinate of the coarse path [m]
+:param x:               (ArrayLike) x-coordinate of the coarse path [m]
+:param y:               (ArrayLike) y-coordinate of the coarse path [m]
 :param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return x:              (array) x-coordinate of the cubic spline path [m]
-:return y:              (array) y-coordinate of the cubic spline path [m]
-:return yaw:            (array) discrete yaw of the cubic spline path [rad]
-:return curvature:      (array) discrete curvature of the cubic spline path [1/m]
+:return x:              (ndarray) x-coordinate of the cubic spline path [m]
+:return y:              (ndarray) y-coordinate of the cubic spline path [m]
+:return yaw:            (ndarray) discrete yaw of the cubic spline path [rad]
+:return curvature:      (ndarray) discrete curvature of the cubic spline path [1/m]
 ```
 
 #### generate_cubic_path
 
 ```yaml
-:param x:               (array) x-coordinate of the coarse path [m]
-:param y:               (array) y-coordinate of the coarse path [m]
+:param x:               (ArrayLike) x-coordinate of the coarse path [m]
+:param y:               (ArrayLike) y-coordinate of the coarse path [m]
 :param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return x:              (array) x-coordinate of the cubic spline path [m]
-:return y:              (array) y-coordinate of the cubic spline path [m]
+:return x:              (ndarray) x-coordinate of the cubic spline path [m]
+:return y:              (ndarray) y-coordinate of the cubic spline path [m]
 ```
 
 #### calculate_spline_yaw
 
 ```yaml
-:param x:               (array) x-coordinate of the coarse path [m]
-:param y:               (array) y-coordinate of the coarse path [m]
+:param x:               (ArrayLike) x-coordinate of the coarse path [m]
+:param y:               (ArrayLike) y-coordinate of the coarse path [m]
 :param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return yaw:            (array) discrete yaw of the cubic spline path [rad]
+:return yaw:            (ndarray) discrete yaw of the cubic spline path [rad]
 ```
 
 #### calculate_spline_curvature
 
 ```yaml
-:param x:               (array) x-coordinate of the coarse path [m]
-:param y:               (array) y-coordinate of the coarse path [m]
+:param x:               (ArrayLike) x-coordinate of the coarse path [m]
+:param y:               (ArrayLike) y-coordinate of the coarse path [m]
 :param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
 :param bc_type:         (string) type of bounding condition, defaults to 'natural'
 
-:return curvature:      (array) discrete curvature of the cubic spline path [1/m]
+:return curvature:      (ndarray) discrete curvature of the cubic spline path [1/m]
 ```
 
 ## Installation
