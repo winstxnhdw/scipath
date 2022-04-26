@@ -3,7 +3,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 from scipy.interpolate import CubicSpline
 
-def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: ArrayLike, bc_type: str) -> tuple[CubicSpline, np.ndarray]:
+def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float, bc_type: str) -> tuple[CubicSpline, np.ndarray]:
 
     distance = np.concatenate((np.zeros(1), np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
     points = np.array([x, y]).T
