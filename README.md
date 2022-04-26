@@ -6,7 +6,7 @@
 SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline). Look at the [notebook](tests/test.ipynb) for more information and examples.
 
 <div align="center">
-	<img src="resources/profile.png" />
+    <img src="resources/profile.png" />
 </div>
 
 #### generate_cubic_spline
@@ -79,8 +79,10 @@ from cubic_spline_interpolator import generate_cubic_spline
 
 dir_path = 'waypoints.csv'
 df = pd.read_csv(dir_path)
-x = df['x'].values.tolist()
-y = df['y'].values.tolist()
 
-px, py, pyaw, pk = generate_cubic_spline(x, y, 0.1)
+x = df['x'].values
+y = df['y'].values
+ds = 0.1
+
+px, py, pyaw, pk = generate_cubic_spline(x, y, ds)
 ```
