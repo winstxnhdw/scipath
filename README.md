@@ -67,8 +67,9 @@ pip install numpy scipy
 
 The following error occurs if the input points contain one or more **consecutive duplicates** of a point. You may fix this by removing the offending duplicate from the input.
 
-```bash
-> ValueError: 'x' must be strictly increasing sequence.
+```python
+>>> generate_cubic_spline()
+ValueError: 'x' must be strictly increasing sequence.
 ```
 
 ## Example
