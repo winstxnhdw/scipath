@@ -8,7 +8,14 @@ def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float, bc_type: str)
     distance = np.concatenate((np.zeros(1), np.cumsum(np.hypot(np.ediff1d(x), np.ediff1d(y)))))
     points = np.array([x, y]).T
     s = np.arange(0, distance[-1], ds)
-    cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
+    
+    try:
+        cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
+        
+    except ValueError:
+        print("If you are getting a sequence error, do check if your input dataset has one or more consecutive duplicate(s).")
+        raise
+ 
     return cs, s
 
 def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
