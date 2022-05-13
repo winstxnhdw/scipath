@@ -1,3 +1,4 @@
+from distutils import extension
 import numpy as np
 
 from numpy.typing import ArrayLike
@@ -12,9 +13,8 @@ def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float, bc_type: str)
     try:
         cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
         
-    except ValueError:
-        print("If you are getting a sequence error, do check if your input dataset has one or more consecutive duplicate(s).")
-        raise
+    except ValueError as e:
+        raise ValueError(f"{e} If you are getting a sequence error, do check if your input dataset has one or more consecutive duplicate(s).")
  
     return cs, s
 
