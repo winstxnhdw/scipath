@@ -13,7 +13,7 @@ def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float, bc_type: str)
         cs = CubicSpline(distance, points, bc_type=bc_type, axis=0, extrapolate=False)
         
     except ValueError as e:
-        raise ValueError(f"{e} If you are getting a sequence error, do check if your input dataset has one or more consecutive duplicate(s).")
+        raise ValueError(f"{e} If you are getting a sequence error, do check if your input dataset contains consecutive duplicate(s).")
  
     return cs, s
 
