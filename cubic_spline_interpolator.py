@@ -17,7 +17,7 @@ def initialise_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float, bc_type: str)
  
     return cs, s
 
-def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+def generate_cubic_spline(x: ArrayLike, y: ArrayLike, ds: float=0.05, bc_type: str='natural') -> tuple[np.ndarray, ...]:
     
     cs, s = initialise_cubic_spline(x, y, ds, bc_type)
 
