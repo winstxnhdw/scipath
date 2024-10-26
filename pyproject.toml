@@ -1,0 +1,24 @@
+[project]
+name = "scipath"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["scipy>=1.14.1"]
+
+[tool.ruff]
+select = ["ALL"]
+ignore = ["D", "TCH", "PLR0913", "PLC0414"]
+src = ["scipy"]
+line-length = 120
+
+[tool.pyright]
+typeCheckingMode = "strict"
+reportUnknownVariableType = false
+reportUnknownMemberType = false
+reportMissingTypeStubs = false
+reportPrivateUsage = false
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

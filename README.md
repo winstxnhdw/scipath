@@ -1,94 +1,41 @@
-# SciPyCubicSpline
+# scipath
 
-SciPyCubicSpline is a simple lightweight wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline). Look at the [notebook](tests/test.ipynb) for more information and examples.
+> [!WARNING]\
+> You should never use `scipath` in production code. There are no plans for releases with semantic versioning, and the API may change at any time. This package is intended for generating animations in my autonomous vehicle projects.
+
+`scipath` is a lightweight typesafe wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline).
 
 <div align="center">
-    <img src="resources/profile.png" />
+    <img src="resources/profile.png" alt="The geometric, yaw and curvature profile of a path generated with a cubic spline"/>
 </div>
-
-#### generate_cubic_spline
-
-```yaml
-:param x:               (ArrayLike) x-coordinate of the coarse path [m]
-:param y:               (ArrayLike) y-coordinate of the coarse path [m]
-:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
-:param bc_type:         (string) type of bounding condition, defaults to 'natural'
-
-:return x:              (ndarray) x-coordinate of the cubic spline path [m]
-:return y:              (ndarray) y-coordinate of the cubic spline path [m]
-:return yaw:            (ndarray) discrete yaw of the cubic spline path [rad]
-:return curvature:      (ndarray) discrete curvature of the cubic spline path [1/m]
-```
-
-#### generate_cubic_path
-
-```yaml
-:param x:               (ArrayLike) x-coordinate of the coarse path [m]
-:param y:               (ArrayLike) y-coordinate of the coarse path [m]
-:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
-:param bc_type:         (string) type of bounding condition, defaults to 'natural'
-
-:return x:              (ndarray) x-coordinate of the cubic spline path [m]
-:return y:              (ndarray) y-coordinate of the cubic spline path [m]
-```
-
-#### calculate_spline_yaw
-
-```yaml
-:param x:               (ArrayLike) x-coordinate of the coarse path [m]
-:param y:               (ArrayLike) y-coordinate of the coarse path [m]
-:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
-:param bc_type:         (string) type of bounding condition, defaults to 'natural'
-
-:return yaw:            (ndarray) discrete yaw of the cubic spline path [rad]
-```
-
-#### calculate_spline_curvature
-
-```yaml
-:param x:               (ArrayLike) x-coordinate of the coarse path [m]
-:param y:               (ArrayLike) y-coordinate of the coarse path [m]
-:param ds:              (float) desired linear displacement between each point, defaults to 0.05 [m]
-:param bc_type:         (string) type of bounding condition, defaults to 'natural'
-
-:return curvature:      (ndarray) discrete curvature of the cubic spline path [1/m]
-```
 
 ## Installation
 
 ```bash
-pip install numpy scipy
+pip install git+https://github.com/winstxnhdw/scipath
 ```
 
-## Troubleshoot
+## Usage
 
-The following error occurs if the input points contain one or more **consecutive duplicates** of a point.
+`scipath` is fast because it heavily relies on NumPy broadcasting and lazily computes the first and second derivative of the cubic spline once. The following example demonstrates how to use `scipath`.
 
 ```python
->>> generate_cubic_spline()
-ValueError: 'x' must be strictly increasing sequence.
+from scipath import create_cubic_path_2d
+
+points = [(0, 0), (1, 1), (2, 0), (3, 1)]
+cubic_path = create_cubic_path_2d(points)
 ```
 
-You may fix this by removing the offending duplicate from the input manually or with the following code.
+By default, all profiles are computed. To reduce the necessary computation required, you can specify the profiles you want to compute.
 
 ```python
-remove_duplicates = lambda x: [v for i, v in enumerate(x) if i == 0 or v != x[i - 1]]
-x = remove_duplicates(x)
-y = remove_duplicates(y)
-```
+from scipath import Profile, create_cubic_path_2d
 
-## Example
-
-```python
-import pandas as pd
-from cubic_spline_interpolator import generate_cubic_spline
-
-dir_path = 'waypoints.csv'
-df = pd.read_csv(dir_path)
-
-x = df['x'].values
-y = df['y'].values
-ds = 0.1
-
-px, py, pyaw, pk = generate_cubic_spline(x, y, ds)
+points = [(0, 0), (1, 1), (2, 0), (3, 1)]
+create_cubic_path_2d(points, profile=Profile.PATH)
+create_cubic_path_2d(points, profile=Profile.YAW)
+create_cubic_path_2d(points, profile=Profile.CURVATURE)
+create_cubic_path_2d(points, profile=Profile.NO_CURVATURE)
+create_cubic_path_2d(points, profile=Profile.NO_YAW)
+create_cubic_path_2d(points, profile=Profile.NO_PATH)
 ```
