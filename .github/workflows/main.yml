@@ -6,6 +6,8 @@ on:
       - .github/workflows/main.yml
       - pyproject.toml
       - scipath/**
+      - examples/**
+      - tests/**
 
 jobs:
   lint:
