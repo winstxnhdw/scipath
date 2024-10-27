@@ -17,6 +17,7 @@ line-length = 120
 
 [tool.pyright]
 typeCheckingMode = "strict"
+stubPath = "typings"
 reportUnknownVariableType = false
 reportUnknownMemberType = false
 reportMissingTypeStubs = false

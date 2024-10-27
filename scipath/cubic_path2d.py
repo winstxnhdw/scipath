@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from enum import IntEnum
 from typing import Any, Generic, Literal, Optional, TypeVar, overload
 
-from numpy import arange, arctan2, concatenate, cumsum, diff, floating, zeros
+from numpy import arange, arctan2, concatenate, diff, floating, zeros
 from numpy.linalg import norm
 from numpy.typing import NDArray
 from scipy.interpolate import CubicSpline
@@ -97,7 +97,7 @@ def create_cubic_path_2d(
     curvature = None
     dx = None
     dy = None
-    norms = concatenate((zeros(1), cumsum(norm(diff(points, axis=0), axis=1))))
+    norms = concatenate((zeros(1), norm(diff(points, axis=0), axis=1).cumsum()))
     steps = arange(0, norms[-1], distance_step)
 
     try:
