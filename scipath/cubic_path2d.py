@@ -95,6 +95,7 @@ def create_cubic_path_2d(
     path = None
     yaw = None
     curvature = None
+    first_derivative = None
     dx = None
     dy = None
     norms = concatenate((zeros(1), norm(diff(points, axis=0), axis=1).cumsum()))
@@ -118,9 +119,11 @@ def create_cubic_path_2d(
         yaw = arctan2(dy, dx)  # pyright: ignore [reportUnknownArgumentType]
 
     if profile & Profile.CURVATURE:
-        second_derivative = cubic_spline.derivative(2)
-        dx, dy = (dx, dy) if dx is not None and dy is not None else cubic_spline.derivative(1)(steps).T
-        ddx, ddy = second_derivative(steps).T
-        curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5
+        if yaw is None:
+            first_derivative = cubic_spline.derivative()
+            dx, dy = first_derivative(steps).T
+
+        ddx, ddy = first_derivative.derivative()(steps).T  # pyright: ignore [reportOptionalMemberAccess]
+        curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5  # pyright: ignore [reportOptionalOperand]
 
     return CubicPath2D(path, yaw, curvature)  # pyright: ignore [reportArgumentType, reportUnknownArgumentType]
