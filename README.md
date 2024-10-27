@@ -1,5 +1,8 @@
 # scipath
 
+[![main.yml](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml)
+[![formatter.yml](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml)
+
 > [!WARNING]\
 > You should never use `scipath` in production code. There are no plans for releases with semantic versioning, and the API may change at any time. This package is intended for generating animations in my autonomous vehicle projects.
 
