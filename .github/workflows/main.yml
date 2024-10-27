@@ -41,3 +41,20 @@ jobs:
 
       - name: Run type checker
         run: uv run pyright
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+        with:
+          show-progress: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3.2.0
+        with:
+          enable-cache: true
+
+      - name: Run type checker
+        run: uv run pytest

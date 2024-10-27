@@ -39,66 +39,58 @@ class Profile(IntEnum):
 
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.PATH] = Profile.PATH,
+    profile: Literal[Profile.PATH],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray, FloatArray | None, FloatArray | None]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.YAW] = Profile.YAW,
+    profile: Literal[Profile.YAW],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray | None, FloatArray, FloatArray | None]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.CURVATURE] = Profile.CURVATURE,
+    profile: Literal[Profile.CURVATURE],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray | None, FloatArray | None, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.NO_CURVATURE] = Profile.NO_CURVATURE,
+    profile: Literal[Profile.NO_CURVATURE],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray, FloatArray, FloatArray | None]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.NO_YAW] = Profile.NO_YAW,
+    profile: Literal[Profile.NO_YAW],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray, FloatArray | None, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.NO_PATH] = Profile.NO_PATH,
+    profile: Literal[Profile.NO_PATH],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray | None, FloatArray, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Literal[Profile.ALL] = Profile.ALL,
+    profile: Literal[Profile.ALL],
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray, FloatArray, FloatArray]: ...
 def create_cubic_path_2d(
-    points: NDArray[floating[Any]] | Sequence[tuple[float, float]],
+    points: FloatArray | Sequence[tuple[float, float]],
     *,
-    profile: Profile = Profile.ALL,
+    profile: Profile,
     distance_step: float = 0.05,
-    boundary_condition_type: str = "natural",
 ) -> CubicPath2D[FloatArray, FloatArray, FloatArray]:
     path = None
     yaw = None
@@ -109,7 +101,7 @@ def create_cubic_path_2d(
     steps = arange(0, norms[-1], distance_step)
 
     try:
-        cubic_spline = CubicSpline(norms, points, bc_type=boundary_condition_type, axis=0, extrapolate=False)
+        cubic_spline = CubicSpline(norms, points, bc_type="natural")
 
     except ValueError as error:
         if diff(points, axis=1).all():
@@ -127,7 +119,7 @@ def create_cubic_path_2d(
 
     if profile & Profile.CURVATURE:
         second_derivative = cubic_spline.derivative(2)
-        dx, dy = (dx, dy) if dx and dy else cubic_spline.derivative(1)(steps).T
+        dx, dy = (dx, dy) if dx is not None and dy is not None else cubic_spline.derivative(1)(steps).T
         ddx, ddy = second_derivative(steps).T
         curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5
 

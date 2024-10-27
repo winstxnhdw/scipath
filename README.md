@@ -23,13 +23,13 @@ pip install git+https://github.com/winstxnhdw/scipath
 `scipath` is fast because it heavily relies on NumPy broadcasting and lazily computes the expensive $p'(x)$ and $p''(x)$ only once. The following example demonstrates how to use `scipath`.
 
 ```python
-from scipath import create_cubic_path_2d
+from scipath import Profile, create_cubic_path_2d
 
 points = [(0, 0), (1, 1), (2, 0), (3, 1)]
-cubic_path = create_cubic_path_2d(points)
+cubic_path = create_cubic_path_2d(points, profile=Profile.ALL)
 ```
 
-By default, all profiles are computed. To reduce the necessary computation required, you can specify the profiles you want to compute.
+To reduce the necessary computation required, you can specify a subset of the profiles you want to compute.
 
 ```python
 from scipath import Profile, create_cubic_path_2d
