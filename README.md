@@ -4,7 +4,7 @@
 [![formatter.yml](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml)
 
 > [!WARNING]\
-> You should never use `scipath` in production code. There are no plans for releases with semantic versioning, and the API may change at any time. This package is intended for generating animations in my autonomous vehicle projects.
+> You should never use `scipath` in production code. The API may change at any time and there are no plans for releases with semantic versioning. This package is intended for generating animations in my autonomous vehicle projects.
 
 `scipath` is a lightweight typesafe wrapper for SciPy's [CubicSpline](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.CubicSpline.html). This wrapper simplifies the interpolation of coarse path data and allows the user to solely compute the profile of the path, such as path curvature and yaw. For large paths, it can be up to 300x faster than Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline).
 
@@ -20,7 +20,7 @@ pip install git+https://github.com/winstxnhdw/scipath
 
 ## Usage
 
-`scipath` is fast because it heavily relies on NumPy broadcasting and lazily computes the first and second derivative of the cubic spline once. The following example demonstrates how to use `scipath`.
+`scipath` is fast because it heavily relies on NumPy broadcasting and lazily computes the expensive $p'(x)$ and $p''(x)$ only once. The following example demonstrates how to use `scipath`.
 
 ```python
 from scipath import create_cubic_path_2d
