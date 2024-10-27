@@ -105,7 +105,7 @@ def create_cubic_path_2d(
         cubic_spline = CubicSpline(norms, points, bc_type="natural")
 
     except ValueError as error:
-        if diff(points, axis=1).all():
+        if diff(points, axis=0).any(axis=1).all():
             raise
 
         raise ConsecutiveDuplicateError from error
