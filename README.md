@@ -43,3 +43,32 @@ create_cubic_path_2d(points, profile=Profile.NO_CURVATURE)
 create_cubic_path_2d(points, profile=Profile.NO_YAW)
 create_cubic_path_2d(points, profile=Profile.NO_PATH)
 ```
+
+## Benchmarks
+
+In our benchmarks, we compare against Atsushi Sakai's [PyCubicSpline](https://github.com/AtsushiSakai/pycubicspline), and found that `scipath` is ~250x faster.
+
+```mermaid
+---
+config:
+    xyChart:
+        height: 200
+        titleFontSize: 15
+    themeVariables:
+        xyChart:
+            backgroundColor: "#00000000"
+---
+xychart-beta horizontal
+    x-axis [scipath, pycspline]
+    y-axis "Compute Time (ms)" 0 --> 260
+    bar [1.893548, 251.382491]
+```
+
+<br></br>
+You may replicate the benchmark results with the following.
+
+```bash
+git clone --recursive https://github.com/winstxnhdw/scipath.git
+cd scipath
+uv run benchmarks/benchmark.py
+```

@@ -1,0 +1,4 @@
+[submodule "benchmarks/pycubicspline"]
+	path = benchmarks/pycubicspline
+	url = https://github.com/AtsushiSakai/pycubicspline
+	shallow = true
