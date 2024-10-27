@@ -1,5 +1,6 @@
 # scipath
 
+[![python](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue)](https://www.python.org/)
 [![main.yml](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml)
 [![formatter.yml](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml)
 
@@ -26,7 +27,7 @@ pip install git+https://github.com/winstxnhdw/scipath
 from scipath import Profile, create_cubic_path_2d
 
 points = [(0, 0), (1, 1), (2, 0), (3, 1)]
-cubic_path = create_cubic_path_2d(points, profile=Profile.ALL)
+path, yaw, curvature = create_cubic_path_2d(points, profile=Profile.ALL)
 ```
 
 To reduce the necessary computation required, you can specify a subset of the profiles you want to compute.

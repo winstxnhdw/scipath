@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from enum import IntEnum
-from typing import Any, Generic, Literal, NamedTuple, TypeVar, overload
+from typing import Any, Generic, Literal, Optional, TypeVar, overload
 
 from numpy import arange, arctan2, concatenate, cumsum, diff, floating, zeros
 from numpy.linalg import norm
 from numpy.typing import NDArray
 from scipy.interpolate import CubicSpline
+from typing_extensions import NamedTuple
 
-type FloatArray = NDArray[floating[Any]]
-
-P_contra = TypeVar("P_contra", bound=FloatArray | None, contravariant=True)
-Y_contra = TypeVar("Y_contra", bound=FloatArray | None, contravariant=True)
-C_contra = TypeVar("C_contra", bound=FloatArray | None, contravariant=True)
+FloatArray = NDArray[floating[Any]]
+P_contra = TypeVar("P_contra", bound=Optional[FloatArray], contravariant=True)
+Y_contra = TypeVar("Y_contra", bound=Optional[FloatArray], contravariant=True)
+C_contra = TypeVar("C_contra", bound=Optional[FloatArray], contravariant=True)
 
 
 class ConsecutiveDuplicateError(Exception):
@@ -21,7 +21,7 @@ class ConsecutiveDuplicateError(Exception):
         super().__init__("Your input should not contain consecutive duplicate(s)!")
 
 
-class CubicPath2D(Generic[P_contra, Y_contra, C_contra], NamedTuple):
+class CubicPath2D(NamedTuple, Generic[P_contra, Y_contra, C_contra]):
     path: P_contra
     yaw: Y_contra
     curvature: C_contra

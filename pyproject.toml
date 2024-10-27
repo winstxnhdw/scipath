@@ -3,15 +3,15 @@ name = "scipath"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = ["scipy>=1.14.1"]
+requires-python = ">=3.9"
+dependencies = ["scipy>=1.11.0"]
 
 [dependency-groups]
 dev = ["nodejs-wheel-binaries>=20.18.0", "pyright>=1.1.386", "pytest>=8.3.3"]
 
 [tool.ruff]
 select = ["ALL"]
-ignore = ["D", "TCH", "PLR0913", "PLC0414", "PT001", "PT013"]
+ignore = ["D", "TCH", "INP", "PLR0913", "PLC0414", "PT001", "PT013"]
 src = ["scipy"]
 line-length = 120
 

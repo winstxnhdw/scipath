@@ -44,6 +44,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, '3.10', 3.11, 3.12, 3.13]
 
     steps:
       - name: Checkout repository
@@ -55,6 +58,9 @@ jobs:
         uses: astral-sh/setup-uv@v3.2.0
         with:
           enable-cache: true
+
+      - name: Install Python
+        run: uv python install ${{ matrix.python-version }}
 
       - name: Run type checker
         run: uv run pytest
