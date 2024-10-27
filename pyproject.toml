@@ -1,11 +1,11 @@
 [project]
 dependencies = ["scipy>=1.11.0", "scipy>=1.13.0; python_version >= '3.12'"]
-
 name = "scipath"
 version = "0.1.0"
 description = ""
 readme = "README.md"
 requires-python = ">=3.9"
+
 [dependency-groups]
 dev = ["nodejs-wheel-binaries>=20.18.0", "pyright>=1.1.386", "pytest>=8.3.3"]
 

@@ -8,6 +8,7 @@
     "timezone": "Asia/Singapore",
     "groupName": "all dependencies",
     "groupSlug": "all",
+    "ignoreDeps": ["scipy"],
     "lockFileMaintenance": {
       "enabled": false
     },
