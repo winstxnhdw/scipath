@@ -62,5 +62,5 @@ jobs:
       - name: Install Python
         run: uv python install ${{ matrix.python-version }}
 
-      - name: Run type checker
+      - name: Run test(s)
         run: uv run pytest

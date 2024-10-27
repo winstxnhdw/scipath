@@ -123,4 +123,4 @@ def create_cubic_path_2d(
         ddx, ddy = second_derivative(steps).T
         curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5
 
-    return CubicPath2D(path, yaw, curvature)
+    return CubicPath2D(path, yaw, curvature)  # pyright: ignore [reportArgumentType, reportUnknownArgumentType]
