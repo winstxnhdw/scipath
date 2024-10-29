@@ -6,7 +6,7 @@ from pathlib import Path
 from time import perf_counter_ns
 from typing import Any, NamedTuple
 
-from benchmarks.pycubicspline.pycubicspline import calc_2d_spline_interpolation
+from benchmarks.pycubicspline.pycubicspline import calc_2d_spline_interpolation  # pyright: ignore [reportMissingImports]
 from scipath import Profile, create_cubic_path_2d
 
 

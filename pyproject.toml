@@ -10,10 +10,11 @@ requires-python = ">=3.9"
 dev = ["nodejs-wheel-binaries>=20.18.0", "pyright>=1.1.386", "pytest>=8.3.3"]
 
 [tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
 select = ["ALL"]
 ignore = ["D", "TCH", "INP", "PLR0913", "PLC0414", "PT001", "PT013"]
-src = ["scipy"]
-line-length = 120
 
 [tool.pyright]
 typeCheckingMode = "strict"
