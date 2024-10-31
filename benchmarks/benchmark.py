@@ -8,21 +8,22 @@ from typing import Any, NamedTuple
 
 from benchmarks.pycubicspline.pycubicspline import calc_2d_spline_interpolation  # pyright: ignore [reportMissingImports]
 from scipath import Profile, create_cubic_path_2d
-
+from scipath.cubic_path2d import FloatArray
+from numpy import array
 
 class BenchmarkResult(NamedTuple):
     timing: float
     meta: Any
 
 
-def get_waypoints() -> list[tuple[float, float]]:
+def get_waypoints() -> FloatArray:
     with Path("tests/waypoints.csv").open("r") as file:
         data = reader(file, delimiter=",")
         next(data)  # skip header
-        return [(float(row[0]), float(row[1])) for row in data]
+        return array([(float(row[0]), float(row[1])) for row in data])
 
 
-def compute_pycubicspline(calls: int, x: list[float], y: list[float], number_of_points: int) -> BenchmarkResult:
+def compute_pycubicspline(calls: int, x: FloatArray, y: FloatArray, number_of_points: int) -> BenchmarkResult:
     start = perf_counter_ns()
 
     for _ in range(calls):
@@ -31,7 +32,7 @@ def compute_pycubicspline(calls: int, x: list[float], y: list[float], number_of_
     return BenchmarkResult(perf_counter_ns() - start, None)
 
 
-def compute_scipath(calls: int, waypoints: list[tuple[float, float]]) -> BenchmarkResult:
+def compute_scipath(calls: int, waypoints: FloatArray) -> BenchmarkResult:
     path_size = create_cubic_path_2d(waypoints, profile=Profile.ALL).path.size
     start = perf_counter_ns()
 
@@ -43,7 +44,7 @@ def compute_scipath(calls: int, waypoints: list[tuple[float, float]]) -> Benchma
 
 def main() -> None:
     waypoints = get_waypoints()
-    x, y = list(zip(*waypoints))
+    x, y = waypoints.T
     calls = 100
     scipath_result = compute_scipath(calls, waypoints)
     pycubicspline_result = compute_pycubicspline(calls, x, y, scipath_result.meta)
