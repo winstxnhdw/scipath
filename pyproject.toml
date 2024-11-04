@@ -7,7 +7,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 
 [dependency-groups]
-dev = ["nodejs-wheel-binaries>=20.18.0", "pyright>=1.1.386", "pytest>=8.3.3"]
+dev = ["nodejs-wheel-binaries>=22.11.0", "pyright>=1.1.387", "pytest>=8.3.3"]
 
 [tool.ruff]
 line-length = 120
