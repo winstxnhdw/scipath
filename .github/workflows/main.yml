@@ -20,7 +20,7 @@ jobs:
           show-progress: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5.2.1
+        uses: astral-sh/setup-uv@v5.2.2
 
       - name: Run linter
         run: uvx ruff check
@@ -35,7 +35,7 @@ jobs:
           show-progress: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5.2.1
+        uses: astral-sh/setup-uv@v5.2.2
 
       - name: Run type checker
         run: uv run pyright
@@ -53,7 +53,7 @@ jobs:
           show-progress: false
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5.2.1
+        uses: astral-sh/setup-uv@v5.2.2
 
       - name: Install Python
         run: uv python install ${{ matrix.python-version }}
