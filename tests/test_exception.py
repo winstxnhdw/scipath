@@ -1,6 +1,7 @@
-# ruff: noqa
+# ruff: noqa: S101
 
 from pytest import raises
+
 from scipath import Profile, create_cubic_path_2d
 from scipath.cubic_path2d import ConsecutiveDuplicateError
 

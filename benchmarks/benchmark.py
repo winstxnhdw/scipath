@@ -1,4 +1,4 @@
-# ruff: noqa
+# ruff: noqa: T201
 
 from cProfile import Profile as cProfile
 from csv import reader
@@ -6,10 +6,14 @@ from pathlib import Path
 from time import perf_counter_ns
 from typing import Any, NamedTuple
 
-from benchmarks.pycubicspline.pycubicspline import calc_2d_spline_interpolation  # pyright: ignore [reportMissingImports]
+from numpy import array
+
+from benchmarks.pycubicspline.pycubicspline import (  # pyright: ignore [reportMissingImports]
+    calc_2d_spline_interpolation,
+)
 from scipath import Profile, create_cubic_path_2d
 from scipath.cubic_path2d import FloatArray
-from numpy import array
+
 
 class BenchmarkResult(NamedTuple):
     timing: float

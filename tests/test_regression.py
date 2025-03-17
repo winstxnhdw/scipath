@@ -1,4 +1,4 @@
-# ruff: noqa
+# ruff: noqa: S101, PLR2004
 
 from scipath import Profile, create_cubic_path_2d
 
