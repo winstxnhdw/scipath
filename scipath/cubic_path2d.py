@@ -2,15 +2,16 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from enum import IntEnum
+from logging import ERROR, StreamHandler, getLogger
 from typing import Any, Generic, Literal, TypeVar, overload
 
-from numpy import arange, arctan2, concatenate, diff, floating, zeros
+from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
 from numpy.linalg import norm
-from numpy.typing import NDArray
 from scipy.interpolate import CubicSpline
 from typing_extensions import NamedTuple, Never
 
-FloatArray = NDArray[floating[Any]]
+FloatArray = ndarray[tuple[int, ...], dtype[floating[Any]]]
+Points = FloatArray | Sequence[tuple[float, float]]
 P = TypeVar("P", bound=FloatArray)
 Y = TypeVar("Y", bound=FloatArray)
 C = TypeVar("C", bound=FloatArray)
@@ -37,57 +38,76 @@ class Profile(IntEnum):
     ALL = 0x111
 
 
+def highlight_consecutive_duplicates(
+    points: Points,
+    mask: ndarray[tuple[int, ...], dtype[bool_[bool]]],
+) -> None:
+    logger = getLogger(__name__)
+    logger.setLevel(ERROR)
+    logger.addHandler(StreamHandler())
+
+    duplicate_mask_with_previous = concatenate(([True], mask)) & concatenate((mask, [True]))
+    highlighted_array = "\n".join(
+        f"    \033[91m{row}\033[0m" if not duplicate_mask_with_previous[i] else f"    {row}"
+        for i, row in enumerate(points)
+    )
+
+    logger.error("[")
+    logger.error(highlighted_array)
+    logger.error("]")
+
+
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.PATH],
     distance_step: float = 0.05,
 ) -> CubicPath2D[FloatArray, Never, Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.YAW],
     distance_step: float = 0.05,
 ) -> CubicPath2D[Never, FloatArray, Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.CURVATURE],
     distance_step: float = 0.05,
 ) -> CubicPath2D[Never, Never, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.NO_CURVATURE],
     distance_step: float = 0.05,
 ) -> CubicPath2D[FloatArray, FloatArray, Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.NO_YAW],
     distance_step: float = 0.05,
 ) -> CubicPath2D[FloatArray, Never, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.NO_PATH],
     distance_step: float = 0.05,
 ) -> CubicPath2D[Never, FloatArray, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Literal[Profile.ALL],
     distance_step: float = 0.05,
 ) -> CubicPath2D[FloatArray, FloatArray, FloatArray]: ...
 def create_cubic_path_2d(
-    points: FloatArray | Sequence[tuple[float, float]],
+    points: Points,
     *,
     profile: Profile,
     distance_step: float = 0.05,
@@ -113,9 +133,12 @@ def create_cubic_path_2d(
         cubic_spline = CubicSpline(norms, points, bc_type="natural")
 
     except ValueError as error:
-        if diff(points, axis=0).any(axis=1).all():
+        consecutive_duplicates_mask = diff(points, axis=0).any(axis=1)
+
+        if consecutive_duplicates_mask.all():
             raise
 
+        highlight_consecutive_duplicates(points, consecutive_duplicates_mask)  # pyright: ignore [reportUnknownArgumentType]
         raise ConsecutiveDuplicateError from error
 
     if profile & Profile.PATH:
@@ -124,14 +147,14 @@ def create_cubic_path_2d(
     if profile & Profile.YAW:
         first_derivative = cubic_spline.derivative(1)
         dx, dy = first_derivative(steps).T
-        yaw = arctan2(dy, dx)  # pyright: ignore [reportUnknownArgumentType]
+        yaw = arctan2(dy, dx)
 
     if profile & Profile.CURVATURE:
-        if yaw is None:
+        if first_derivative is None:
             first_derivative = cubic_spline.derivative()
             dx, dy = first_derivative(steps).T
 
-        ddx, ddy = first_derivative.derivative()(steps).T  # pyright: ignore [reportOptionalMemberAccess]
+        ddx, ddy = first_derivative.derivative()(steps).T
         curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5  # pyright: ignore [reportOptionalOperand]
 
-    return CubicPath2D(path, yaw, curvature)  # pyright: ignore [reportArgumentType, reportUnknownArgumentType]
+    return CubicPath2D(path, yaw, curvature)  # pyright: ignore [reportArgumentType]
