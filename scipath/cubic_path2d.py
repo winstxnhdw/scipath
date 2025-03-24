@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from enum import IntEnum
-from typing import Any, Generic, Literal, Optional, TypeVar, overload
+from typing import Any, Generic, Literal, TypeVar, overload
 
 from numpy import arange, arctan2, concatenate, diff, floating, zeros
 from numpy.linalg import norm
 from numpy.typing import NDArray
 from scipy.interpolate import CubicSpline
-from typing_extensions import NamedTuple
+from typing_extensions import NamedTuple, Never
 
 FloatArray = NDArray[floating[Any]]
-P_contra = TypeVar("P_contra", bound=Optional[FloatArray], contravariant=True)
-Y_contra = TypeVar("Y_contra", bound=Optional[FloatArray], contravariant=True)
-C_contra = TypeVar("C_contra", bound=Optional[FloatArray], contravariant=True)
+P = TypeVar("P", bound=FloatArray)
+Y = TypeVar("Y", bound=FloatArray)
+C = TypeVar("C", bound=FloatArray)
 
 
 class ConsecutiveDuplicateError(Exception):
@@ -21,10 +21,10 @@ class ConsecutiveDuplicateError(Exception):
         super().__init__("Your input should not contain consecutive duplicate(s)!")
 
 
-class CubicPath2D(NamedTuple, Generic[P_contra, Y_contra, C_contra]):
-    path: P_contra
-    yaw: Y_contra
-    curvature: C_contra
+class CubicPath2D(NamedTuple, Generic[P, Y, C]):
+    path: P
+    yaw: Y
+    curvature: C
 
 
 class Profile(IntEnum):
@@ -43,42 +43,42 @@ def create_cubic_path_2d(
     *,
     profile: Literal[Profile.PATH],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray | None, FloatArray | None]: ...
+) -> CubicPath2D[FloatArray, Never, Never]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
     *,
     profile: Literal[Profile.YAW],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray | None, FloatArray, FloatArray | None]: ...
+) -> CubicPath2D[Never, FloatArray, Never]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
     *,
     profile: Literal[Profile.CURVATURE],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray | None, FloatArray | None, FloatArray]: ...
+) -> CubicPath2D[Never, Never, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
     *,
     profile: Literal[Profile.NO_CURVATURE],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray, FloatArray | None]: ...
+) -> CubicPath2D[FloatArray, FloatArray, Never]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
     *,
     profile: Literal[Profile.NO_YAW],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray | None, FloatArray]: ...
+) -> CubicPath2D[FloatArray, Never, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
     *,
     profile: Literal[Profile.NO_PATH],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray | None, FloatArray, FloatArray]: ...
+) -> CubicPath2D[Never, FloatArray, FloatArray]: ...
 @overload
 def create_cubic_path_2d(
     points: FloatArray | Sequence[tuple[float, float]],
@@ -91,7 +91,15 @@ def create_cubic_path_2d(
     *,
     profile: Profile,
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray, FloatArray]:
+) -> (
+    CubicPath2D[FloatArray, FloatArray, FloatArray]
+    | CubicPath2D[Never, FloatArray, FloatArray]
+    | CubicPath2D[FloatArray, Never, FloatArray]
+    | CubicPath2D[FloatArray, FloatArray, Never]
+    | CubicPath2D[Never, Never, FloatArray]
+    | CubicPath2D[Never, FloatArray, Never]
+    | CubicPath2D[FloatArray, Never, Never]
+):
     path = None
     yaw = None
     curvature = None
