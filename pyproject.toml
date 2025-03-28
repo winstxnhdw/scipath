@@ -4,7 +4,7 @@ name = "scipath"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 [dependency-groups]
 dev = ["nodejs-wheel-binaries>=22.14.0", "pyright>=1.1.396", "pytest>=8.3.5"]
@@ -18,7 +18,7 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "TC", "INP", "PLR0913", "PLC0414", "PT001", "PT013"]
+ignore = ["D", "INP001", "PLC0414", "PT013"]
 
 [tool.pyright]
 typeCheckingMode = "strict"

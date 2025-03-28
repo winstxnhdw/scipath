@@ -5,7 +5,7 @@ from pathlib import Path
 from pytest import fixture
 
 
-@fixture()
+@fixture
 def waypoints() -> Iterator[list[tuple[float, float]]]:
     with Path("tests/waypoints.csv").open("r") as file:
         data = reader(file, delimiter=",")

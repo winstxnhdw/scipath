@@ -1,6 +1,6 @@
 # scipath
 
-[![python](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11%20|%203.12%20|%203.13-blue)](https://www.python.org/)
+[![python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13-blue)](https://www.python.org/)
 [![main.yml](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/main.yml)
 [![formatter.yml](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml/badge.svg)](https://github.com/winstxnhdw/scipath/actions/workflows/formatter.yml)
 
