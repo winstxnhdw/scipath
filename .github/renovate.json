@@ -1,4 +1,4 @@
 {
     "extends": [ "github>winstxnhdw/renovate" ],
-    "ignoreDeps": ["scipy"]
+    "ignoreDeps": ["python", "scipy"]
 }
