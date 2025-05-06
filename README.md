@@ -27,7 +27,11 @@ pip install git+https://github.com/winstxnhdw/scipath
 from scipath import Profile, create_cubic_path_2d
 
 points = [(0, 0), (1, 1), (2, 0), (3, 1)]
-path, yaw, curvature = create_cubic_path_2d(points, profile=Profile.ALL)
+path = create_cubic_path_2d(points, profile=Profile.ALL)
+
+print(path['path'])
+print(path['yaw'])
+print(path['curvature'])
 ```
 
 To reduce the necessary computation required, you can specify a subset of the profiles you want to compute.

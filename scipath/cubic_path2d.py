@@ -8,7 +8,7 @@ from typing import Any, Generic, Literal, TypeVar, overload
 from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
 from numpy.linalg import norm
 from scipy.interpolate import CubicSpline
-from typing_extensions import NamedTuple, Never
+from typing_extensions import Never, TypedDict
 
 FloatArray = ndarray[tuple[int, ...], dtype[floating[Any]]]
 Points = FloatArray | Sequence[tuple[float, float]]
@@ -22,7 +22,7 @@ class ConsecutiveDuplicateError(Exception):
         super().__init__("Your input should not contain consecutive duplicate(s)!")
 
 
-class CubicPath2D(NamedTuple, Generic[P, Y, C]):
+class CubicPath2D(TypedDict, Generic[P, Y, C]):
     path: P
     yaw: Y
     curvature: C
@@ -157,4 +157,8 @@ def create_cubic_path_2d(
         ddx, ddy = first_derivative.derivative()(steps).T
         curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5  # pyright: ignore [reportOptionalOperand]
 
-    return CubicPath2D(path, yaw, curvature)  # pyright: ignore [reportArgumentType]
+    return {  # pyright: ignore [reportReturnType]
+        "path": path,
+        "yaw": yaw,
+        "curvature": curvature,
+    }

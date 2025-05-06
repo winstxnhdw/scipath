@@ -8,7 +8,7 @@ from typing import Any, NamedTuple
 
 from numpy import array
 
-from benchmarks.pycubicspline.pycubicspline import (  # pyright: ignore [reportMissingImports]
+from benchmarks.pycubicspline.pycubicspline import (  # pyright: ignore [reportMissingModuleSource]
     calc_2d_spline_interpolation,
 )
 from scipath import Profile, create_cubic_path_2d
@@ -37,7 +37,7 @@ def compute_pycubicspline(calls: int, x: FloatArray, y: FloatArray, number_of_po
 
 
 def compute_scipath(calls: int, waypoints: FloatArray) -> BenchmarkResult:
-    path_size = create_cubic_path_2d(waypoints, profile=Profile.ALL).path.size
+    path_size = create_cubic_path_2d(waypoints, profile=Profile.ALL)["path"].size
     start = perf_counter_ns()
 
     for _ in range(calls):
@@ -56,7 +56,7 @@ def main() -> None:
     profiler = cProfile()
     profiler.runcall(create_cubic_path_2d, waypoints, profile=Profile.ALL)
     profiler.print_stats()
-    profiler.runcall(calc_2d_spline_interpolation, x, y, scipath_result.meta)  # pyright: ignore [reportUnknownArgumentType]
+    profiler.runcall(calc_2d_spline_interpolation, x, y, scipath_result.meta)
     profiler.print_stats()
 
     print(f"scipath: {scipath_result.timing / calls / 1_000_000:.6f} ms")
