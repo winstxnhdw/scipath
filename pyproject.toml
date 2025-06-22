@@ -25,7 +25,6 @@ select = ["ALL"]
 ignore = ["D", "INP001", "PLC0414", "PT013"]
 
 [tool.pyright]
-exclude = ["benchmarks/pycubicspline"]
 typeCheckingMode = "strict"
 stubPath = "typings"
 reportUnknownVariableType = false
