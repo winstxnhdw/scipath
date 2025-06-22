@@ -25,9 +25,13 @@ select = ["ALL"]
 ignore = ["D", "INP001", "PLC0414", "PT013"]
 
 [tool.pyright]
+exclude = ["benchmarks/pycubicspline"]
 typeCheckingMode = "strict"
 stubPath = "typings"
 reportUnknownVariableType = false
 reportUnknownMemberType = false
 reportMissingTypeStubs = false
 reportPrivateUsage = false
+
+[tool.pytest.ini_options]
+norecursedirs = ["benchmarks/pycubicspline"]
