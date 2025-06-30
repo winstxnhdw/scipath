@@ -145,7 +145,7 @@ def create_cubic_path_2d(
     if profile & Profile.YAW:
         first_derivative = cubic_spline.derivative(1)
         dx, dy = first_derivative(steps).T
-        cubic_path["yaw"] = arctan2(dy, dx)
+        cubic_path["yaw"] = arctan2(dy, dx)  # pyright: ignore [reportUnknownArgumentType]
 
     if profile & Profile.CURVATURE:
         if first_derivative is None:
