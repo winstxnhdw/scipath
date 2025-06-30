@@ -120,9 +120,7 @@ def create_cubic_path_2d(
     | CubicPath2D[Never, FloatArray, Never]
     | CubicPath2D[FloatArray, Never, Never]
 ):
-    path = None
-    yaw = None
-    curvature = None
+    cubic_path = {}
     first_derivative = None
     dx = None
     dy = None
@@ -142,12 +140,12 @@ def create_cubic_path_2d(
         raise ConsecutiveDuplicateError from error
 
     if profile & Profile.PATH:
-        path = cubic_spline(steps)
+        cubic_path["path"] = cubic_spline(steps)
 
     if profile & Profile.YAW:
         first_derivative = cubic_spline.derivative(1)
         dx, dy = first_derivative(steps).T
-        yaw = arctan2(dy, dx)
+        cubic_path["yaw"] = arctan2(dy, dx)
 
     if profile & Profile.CURVATURE:
         if first_derivative is None:
@@ -155,10 +153,6 @@ def create_cubic_path_2d(
             dx, dy = first_derivative(steps).T
 
         ddx, ddy = first_derivative.derivative()(steps).T
-        curvature = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5  # pyright: ignore [reportOptionalOperand]
+        cubic_path["curvature"] = (dx * ddy - dy * ddx) / (dx * dx + dy * dy) ** 1.5  # pyright: ignore [reportOptionalOperand]
 
-    return {  # pyright: ignore [reportReturnType]
-        "path": path,
-        "yaw": yaw,
-        "curvature": curvature,
-    }
+    return cubic_path  # pyright: ignore [reportReturnType]
