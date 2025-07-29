@@ -22,7 +22,7 @@ extend-exclude = ["benchmarks/pycubicspline"]
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "INP001", "PLC0414", "PT013"]
+ignore = ["D", "INP001", "PLC0414", "PT013", "TC003"]
 
 [tool.pyright]
 typeCheckingMode = "strict"

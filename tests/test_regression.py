@@ -1,5 +1,7 @@
 # ruff: noqa: S101
 
+from __future__ import annotations
+
 from math import isclose
 
 from scipath import Profile, create_cubic_path_2d
