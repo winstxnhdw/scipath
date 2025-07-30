@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from enum import IntEnum
-from logging import ERROR, StreamHandler, getLogger
+from logging import getLogger
 from typing import Any, Generic, Literal, TypeVar, overload
 
 from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
@@ -42,16 +42,13 @@ def highlight_consecutive_duplicates(
     points: Points,
     mask: ndarray[tuple[int, ...], dtype[bool_[bool]]],
 ) -> None:
-    logger = getLogger(__name__)
-    logger.setLevel(ERROR)
-    logger.addHandler(StreamHandler())
-
     duplicate_mask_with_previous = concatenate(([True], mask)) & concatenate((mask, [True]))
     highlighted_array = "\n".join(
         f"    \033[91m{row}\033[0m" if not duplicate_mask_with_previous[i] else f"    {row}"
         for i, row in enumerate(points)
     )
 
+    logger = getLogger(__name__)
     logger.error("[")
     logger.error(highlighted_array)
     logger.error("]")
