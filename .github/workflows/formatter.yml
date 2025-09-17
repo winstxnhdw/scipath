@@ -4,8 +4,9 @@ on:
   push:
     paths:
       - .github/workflows/formatter.yml
-      - scipath/**
-      - tests/**
+      - scipath/**/*.py
+      - tests/**/*.py
+      - benchmarks/**/*.py
 
 permissions:
   contents: write
