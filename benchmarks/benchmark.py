@@ -6,11 +6,11 @@ from pathlib import Path
 from time import perf_counter_ns
 from typing import Any, NamedTuple
 
-from numpy import array
-
 from benchmarks.pycubicspline.pycubicspline import (  # pyright: ignore [reportMissingModuleSource]
     calc_2d_spline_interpolation,
 )
+from numpy import array
+
 from scipath import Profile, create_cubic_path_2d
 from scipath.cubic_path2d import FloatArray
 
