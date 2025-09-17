@@ -36,6 +36,7 @@ reportUnknownVariableType = false
 reportUnknownMemberType = false
 reportMissingTypeStubs = false
 reportPrivateUsage = false
+exclude = ["benchmarks/pycubicspline"]
 
 [tool.pytest.ini_options]
 norecursedirs = ["benchmarks/pycubicspline"]
