@@ -19,5 +19,6 @@ jobs:
     uses: winstxnhdw/actions/.github/workflows/uv.yml@main
     with:
       runs-on: ${{ matrix.runs-on }}-latest
+      recursive-clone: true
       python-version: ${{ matrix.python-version }}
       install-project: true

@@ -14,3 +14,5 @@ permissions:
 jobs:
   format:
     uses: winstxnhdw/actions/.github/workflows/format-python.yml@main
+    with:
+      recursive-clone: true
