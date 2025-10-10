@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from enum import IntEnum
 from logging import getLogger
-from typing import Any, Generic, Literal, Tuple, Union, overload
+from typing import Any, Generic, Literal, Union, overload
 
 from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
 from numpy.linalg import norm
@@ -11,9 +11,9 @@ from scipy.interpolate import CubicSpline
 from typing_extensions import Never, TypedDict, TypeVar
 
 FloatType = TypeVar("FloatType", bound=floating[Any])
-Points = Union[ndarray[Tuple[int, Literal[2]], dtype[FloatType]], Sequence[Tuple[float, float]]]
-FloatArray = ndarray[Tuple[int], dtype[FloatType]]
-BoolArray = ndarray[Tuple[int], dtype[bool_]]
+Points = Union[ndarray[tuple[int, Literal[2]], dtype[FloatType]], Sequence[tuple[float, float]]]
+FloatArray = ndarray[tuple[int], dtype[FloatType]]
+BoolArray = ndarray[tuple[int], dtype[bool_]]
 P = TypeVar("P", bound=FloatArray[floating[Any]])
 Y = TypeVar("Y", bound=FloatArray[floating[Any]])
 C = TypeVar("C", bound=FloatArray[floating[Any]])
