@@ -3,18 +3,20 @@ from __future__ import annotations
 from collections.abc import Sequence
 from enum import IntEnum
 from logging import getLogger
-from typing import Any, Generic, Literal, TypeVar, overload
+from typing import Any, Generic, Literal, Tuple, Union, overload
 
 from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
 from numpy.linalg import norm
 from scipy.interpolate import CubicSpline
-from typing_extensions import Never, TypedDict
+from typing_extensions import Never, TypedDict, TypeVar
 
-FloatArray = ndarray[tuple[int, ...], dtype[floating[Any]]]
-Points = FloatArray | Sequence[tuple[float, float]]
-P = TypeVar("P", bound=FloatArray)
-Y = TypeVar("Y", bound=FloatArray)
-C = TypeVar("C", bound=FloatArray)
+FloatType = TypeVar("FloatType", bound=floating[Any])
+Points = Union[ndarray[Tuple[int, Literal[2]], dtype[FloatType]], Sequence[Tuple[float, float]]]
+FloatArray = ndarray[Tuple[int], dtype[FloatType]]
+BoolArray = ndarray[Tuple[int], dtype[bool_]]
+P = TypeVar("P", bound=FloatArray[floating[Any]])
+Y = TypeVar("Y", bound=FloatArray[floating[Any]])
+C = TypeVar("C", bound=FloatArray[floating[Any]])
 
 
 class ConsecutiveDuplicateError(Exception):
@@ -39,8 +41,8 @@ class Profile(IntEnum):
 
 
 def highlight_consecutive_duplicates(
-    points: Points,
-    mask: ndarray[tuple[int, ...], dtype[bool_[bool]]],
+    points: Points[floating[Any]],
+    mask: BoolArray,
 ) -> None:
     duplicate_mask_with_previous = concatenate(([True], mask)) & concatenate((mask, [True]))
     highlighted_array = "\n".join(
@@ -56,66 +58,66 @@ def highlight_consecutive_duplicates(
 
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.PATH],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, Never, Never]: ...
+) -> CubicPath2D[FloatArray[FloatType], Never, Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.YAW],
     distance_step: float = 0.05,
-) -> CubicPath2D[Never, FloatArray, Never]: ...
+) -> CubicPath2D[Never, FloatArray[FloatType], Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.CURVATURE],
     distance_step: float = 0.05,
-) -> CubicPath2D[Never, Never, FloatArray]: ...
+) -> CubicPath2D[Never, Never, FloatArray[FloatType]]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.NO_CURVATURE],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray, Never]: ...
+) -> CubicPath2D[FloatArray[FloatType], FloatArray[FloatType], Never]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.NO_YAW],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, Never, FloatArray]: ...
+) -> CubicPath2D[FloatArray[FloatType], Never, FloatArray[FloatType]]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.NO_PATH],
     distance_step: float = 0.05,
-) -> CubicPath2D[Never, FloatArray, FloatArray]: ...
+) -> CubicPath2D[Never, FloatArray[FloatType], FloatArray[FloatType]]: ...
 @overload
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Literal[Profile.ALL],
     distance_step: float = 0.05,
-) -> CubicPath2D[FloatArray, FloatArray, FloatArray]: ...
+) -> CubicPath2D[FloatArray[FloatType], FloatArray[FloatType], FloatArray[FloatType]]: ...
 def create_cubic_path_2d(
-    points: Points,
+    points: Points[FloatType],
     *,
     profile: Profile,
     distance_step: float = 0.05,
 ) -> (
-    CubicPath2D[FloatArray, FloatArray, FloatArray]
-    | CubicPath2D[Never, FloatArray, FloatArray]
-    | CubicPath2D[FloatArray, Never, FloatArray]
-    | CubicPath2D[FloatArray, FloatArray, Never]
-    | CubicPath2D[Never, Never, FloatArray]
-    | CubicPath2D[Never, FloatArray, Never]
-    | CubicPath2D[FloatArray, Never, Never]
+    CubicPath2D[FloatArray[FloatType], FloatArray[FloatType], FloatArray[FloatType]]
+    | CubicPath2D[Never, FloatArray[FloatType], FloatArray[FloatType]]
+    | CubicPath2D[FloatArray[FloatType], Never, FloatArray[FloatType]]
+    | CubicPath2D[FloatArray[FloatType], FloatArray[FloatType], Never]
+    | CubicPath2D[Never, Never, FloatArray[FloatType]]
+    | CubicPath2D[Never, FloatArray[FloatType], Never]
+    | CubicPath2D[FloatArray[FloatType], Never, Never]
 ):
     cubic_path = {}
     first_derivative = None
@@ -128,12 +130,12 @@ def create_cubic_path_2d(
         cubic_spline = CubicSpline(norms, points, bc_type="natural")
 
     except ValueError as error:
-        consecutive_duplicates_mask = diff(points, axis=0).any(axis=1)
+        consecutive_duplicates_mask: BoolArray = diff(points, axis=0).any(axis=1)  # pyright: ignore[reportAssignmentType]
 
         if consecutive_duplicates_mask.all():
             raise
 
-        highlight_consecutive_duplicates(points, consecutive_duplicates_mask)  # pyright: ignore [reportUnknownArgumentType]
+        highlight_consecutive_duplicates(points, consecutive_duplicates_mask)
         raise ConsecutiveDuplicateError from error
 
     if profile & Profile.PATH:
