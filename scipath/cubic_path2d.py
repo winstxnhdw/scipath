@@ -5,12 +5,12 @@ from enum import IntEnum
 from logging import getLogger
 from typing import Any, Generic, Literal, Union, overload
 
-from numpy import arange, arctan2, bool_, concatenate, diff, dtype, floating, ndarray, zeros
+from numpy import arange, arctan2, bool_, concatenate, diff, dtype, float64, floating, ndarray, zeros
 from numpy.linalg import norm
 from scipy.interpolate import CubicSpline
 from typing_extensions import Never, TypedDict, TypeVar
 
-FloatType = TypeVar("FloatType", bound=floating[Any])
+FloatType = TypeVar("FloatType", bound=floating[Any], default=float64)
 Points = Union[ndarray[tuple[int, Literal[2]], dtype[FloatType]], Sequence[tuple[float, float]]]
 FloatArray = ndarray[tuple[int], dtype[FloatType]]
 BoolArray = ndarray[tuple[int], dtype[bool_]]
